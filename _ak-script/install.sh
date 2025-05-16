@@ -111,7 +111,7 @@ checkAKInstalledVersion() {
     fi
 }
 
-# downloadFile downloads the latest binary package and also the checksum
+# downloadFile downloads the latest binary package 
 # for that binary.
 downloadFile() {
     AK_DIST="$TAG.tar.gz"

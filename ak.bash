@@ -17,7 +17,13 @@ AK_ROOT=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
 AK_SUBSCRIPT_DIR="$AK_ROOT"/_ak-script
 
 # shellcheck source=/dev/null
-source "$AK_SUBSCRIPT_DIR"/lib/*.sh
+source "$AK_SUBSCRIPT_DIR"/lib/util.sh
+source "$AK_SUBSCRIPT_DIR"/lib/print.sh
+
+trap 'onCtrlC' INT
+function onCtrlC () {
+    exit 1
+}
 
 function version() {
     head -1 "$AK_SUBSCRIPT_DIR"/VERSION
@@ -25,6 +31,7 @@ function version() {
 
 function help() {
     echo "AK devops script collection."
+    echo "echo \"source /usr/local/bin/_ak-script/completion/ak.bash\" >  ~/.bashrc"
     echo "Environment:"
     echo "  DEBUG: 环境变量DEBUG=true表示开启调试模式"
     echo ""

@@ -1,6 +1,19 @@
+source /usr/local/bin/_ak-script/lib/util.sh
+
 function _docker-completion() {
     case ${COMP_WORDS[$((COMP_CWORD - 1))]} in
     "goto")
+    
+        if ! docker info &>/dev/null ; then
+            if [ "$(uname)" = "Darwin" ]; then
+                open -a Docker
+            else
+               systemctl start docker
+            fi
+            COMPREPLY=('Docker' 'is' 'opening' '...')
+            return 0
+        fi
+
         COMPREPLY=()
         if [[ -n ${COMP_WORDS[$((COMP_CWORD))]} ]]; then
             while IFS='' read -r line; do COMPREPLY+=("$line"); done < <(compgen -W "$(docker ps --format "{{.Names}}" | grep "${COMP_WORDS[$((COMP_CWORD))]}")")
