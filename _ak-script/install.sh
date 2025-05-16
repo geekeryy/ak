@@ -80,9 +80,9 @@ checkDesiredVersion() {
         if [ "${HAS_CURL}" == "true" ]; then
             # TODO 使用api封装一下
             token=$(echo $GH_TOKEN | rev | base64 -d)
-            latest_release_response=$(curl --header "Authorization: Bearer $token" -L --silent --show-error --fail "$latest_release_url" 2>&1 || true)
+            latest_release_response=$(curl --header "Authorization: Bearer $token" -L --silent --show-error "$latest_release_url" 2>&1 || true)
         elif [ "${HAS_WGET}" == "true" ]; then
-            latest_release_response=$(wget --header "Authorization: Bearer $token" -L --silent --show-error --fail "$latest_release_url" -q -O - 2>&1 || true)
+            latest_release_response=$(wget --header "Authorization: Bearer $token" --content-on-error -q -O - "$latest_release_url"  2>&1 || true)
         fi
         TAG=$(echo "$latest_release_response" | jq .tag_name | tr -d '"')
         if [ "x$TAG" == "x" ]; then
@@ -134,8 +134,9 @@ installFile() {
     echo "Preparing to install $BINARY_NAME into ${AK_INSTALL_DIR}"
     runAsRoot cp "$AK_TMP/$BINARY_NAME-${TAG#v}/ak.bash" "$AK_INSTALL_DIR/$BINARY_NAME"
     runAsRoot cp -r "$AK_TMP/$BINARY_NAME-${TAG#v}/_ak-script" "$AK_INSTALL_DIR/"
-    sudo chmod o+w "$AK_INSTALL_DIR/_ak-script/VERSION"
-    sudo echo "${TAG}" > "$AK_INSTALL_DIR/_ak-script/VERSION"
+    runAsRoot chmod a+w "$AK_INSTALL_DIR/_ak-script/VERSION"
+    runAsRoot echo "${TAG}" > "$AK_INSTALL_DIR/_ak-script/VERSION"
+    runAsRoot chmod a-w "$AK_INSTALL_DIR/_ak-script/VERSION"
     echo "$BINARY_NAME installed into $AK_INSTALL_DIR/$BINARY_NAME"
 }
 
