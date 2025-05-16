@@ -31,7 +31,6 @@ function version() {
 
 function help() {
     echo "AK devops script collection."
-    echo "echo \"source /usr/local/bin/_ak-script/completion/ak.bash\" >  ~/.bashrc"
     echo "Environment:"
     echo "  DEBUG: 环境变量DEBUG=true表示开启调试模式"
     echo ""

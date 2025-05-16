@@ -3,7 +3,7 @@ source /usr/local/bin/_ak-script/lib/util.sh
 function _docker-completion() {
     case ${COMP_WORDS[$((COMP_CWORD - 1))]} in
     "goto")
-    
+
         if ! docker info &>/dev/null ; then
             if [ "$(uname)" = "Darwin" ]; then
                 open -a Docker
@@ -27,10 +27,12 @@ function _docker-completion() {
 function _ak_completions() {
     AK_SUBSCRIPT_DIR="$(dirname "$(which ak)")/_ak-script"
     if [ "$COMP_CWORD" -eq 1 ]; then
-       while IFS='' read -r line; do COMPREPLY+=("$line"); done < <(compgen -W "$(find "$AK_SUBSCRIPT_DIR"/*.sh -type f -print0 | xargs -0 basename | awk -F "." '{print $1}')" "${COMP_WORDS[$COMP_CWORD]}")
+        COMPREPLY=('update' 'version' 'help')
+        while IFS='' read -r line; do COMPREPLY+=("$line"); done < <(compgen -W "$(find "$AK_SUBSCRIPT_DIR"/*.sh -type f -print0 | xargs -0 basename | awk -F "." '{print $1}')" "${COMP_WORDS[$COMP_CWORD]}")
     elif [ "$COMP_CWORD" -eq 2 ]; then
+        # TODO update 自动补全分支和tag
         COMPREPLY=()
-        while IFS='' read -r line; do COMPREPLY+=("$line"); done < <(compgen -W "$(cat < "$AK_SUBSCRIPT_DIR/${COMP_WORDS[1]}.sh" | grep -E "^function" | awk -F "(" '{print $1}' | cut -c 9- | grep -v "_")" "${COMP_WORDS[$COMP_CWORD]}")
+        while IFS='' read -r line; do COMPREPLY+=("$line"); done < <(compgen -W "$(cat "$AK_SUBSCRIPT_DIR/${COMP_WORDS[1]}.sh" 2>/dev/null | grep -E "^function" | awk -F "(" '{print $1}' | cut -c 9- | grep -v "_")" "${COMP_WORDS[$COMP_CWORD]}")
     else
         if type "_${COMP_WORDS[1]}"-completion &>/dev/null; then
             _"${COMP_WORDS[1]}"-completion
