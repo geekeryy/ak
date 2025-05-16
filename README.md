@@ -36,3 +36,17 @@
 
 - ssl：SSL证书生成工具，支持自建CA、生成SSL自签名证书
 - docker：docker辅助命令，支持查看镜像的tags列表、进入容器目录
+
+## 安装
+
+安装稳定版本
+
+```sh
+curl -s https://raw.githubusercontent.com/geekeryy/ak/refs/heads/main/_ak-script/install.sh | bash 
+```
+
+安装开发版本
+
+```sh
+curl -s https://raw.githubusercontent.com/geekeryy/ak/refs/heads/main/_ak-script/install.sh | bash -s -- --version main
+```

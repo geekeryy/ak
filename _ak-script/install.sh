@@ -4,7 +4,7 @@
 : ${USE_SUDO:="true"}
 : ${DEBUG:="false"}
 : ${AK_INSTALL_DIR:="/usr/local/bin"}
-: ${GH_TOKEN:="Z2l0aHViX3BhdF8xMUFDN0pKRVkwYUpaNGJnU3lacmRGX2pxem9CTm9ORXNiRTVrUW83RVd4ZWY5eVQ2emZYNjFuM3draE92OUt4a2tTR0RJNTNKRTVuamxXM01v"}
+: ${GH_TOKEN:="whmVuNHSSFmSzskUSJzQDh3dS9mSIlkbTVFU1pXasdlTThGZt92NaF1UTZGOCN3ZQZHNXpWZ1Rnb2A3X1c1V4J2dWVWS4FkWwkVRKp0NDFUMx8FdhB3XiVHa0l2Z"}
 
 
 HAS_CURL="$(type "curl" &>/dev/null && echo true || echo false)"
@@ -79,7 +79,7 @@ checkDesiredVersion() {
         local latest_release_response=""
         if [ "${HAS_CURL}" == "true" ]; then
             # TODO 使用api封装一下
-            token=$(echo $GH_TOKEN | base64)
+            token=$(echo $GH_TOKEN | rev | base64 -d)
             latest_release_response=$(curl --header "Authorization: Bearer $token" -L --silent --show-error --fail "$latest_release_url" 2>&1 || true)
         elif [ "${HAS_WGET}" == "true" ]; then
             latest_release_response=$(wget --header "Authorization: Bearer $token" -L --silent --show-error --fail "$latest_release_url" -q -O - 2>&1 || true)
@@ -134,6 +134,8 @@ installFile() {
     echo "Preparing to install $BINARY_NAME into ${AK_INSTALL_DIR}"
     runAsRoot cp "$AK_TMP/$BINARY_NAME-${TAG#v}/ak.bash" "$AK_INSTALL_DIR/$BINARY_NAME"
     runAsRoot cp -r "$AK_TMP/$BINARY_NAME-${TAG#v}/_ak-script" "$AK_INSTALL_DIR/"
+    sudo chmod o+w "$AK_INSTALL_DIR/_ak-script/VERSION"
+    sudo echo "${TAG}" > "$AK_INSTALL_DIR/_ak-script/VERSION"
     echo "$BINARY_NAME installed into $AK_INSTALL_DIR/$BINARY_NAME"
 }
 

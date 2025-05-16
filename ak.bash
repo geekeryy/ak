@@ -42,7 +42,13 @@ function help() {
 
 function update() {
     shift
-    "$AK_SUBSCRIPT_DIR"/install.sh "${@}"
+    if [ $# -eq 0 ]; then
+        # shellcheck source=/dev/null
+        source "$AK_SUBSCRIPT_DIR"/install.sh --version main
+    else
+        # shellcheck source=/dev/null
+        source "$AK_SUBSCRIPT_DIR"/install.sh "${@}"
+    fi
 }
 
 if [ $# = 0 ]; then
