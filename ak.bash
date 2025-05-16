@@ -51,10 +51,10 @@ function update() {
     shift
     if [ $# -eq 0 ]; then
         # shellcheck source=/dev/null
-        source "$AK_SUBSCRIPT_DIR"/install.sh --version main
+        source "$AK_SUBSCRIPT_DIR"/install.sh
     else
         # shellcheck source=/dev/null
-        source "$AK_SUBSCRIPT_DIR"/install.sh "${@}"
+        source "$AK_SUBSCRIPT_DIR"/install.sh --version "${@}"
     fi
 }
 
@@ -70,6 +70,7 @@ else
         ;;
     "update")
         update "${@}"
+        exit 0
         ;;
     *)
         # shellcheck source=/dev/null

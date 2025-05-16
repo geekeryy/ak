@@ -85,8 +85,8 @@ checkDesiredVersion() {
             latest_release_response=$(wget --header "Authorization: Bearer $token" --content-on-error -q -O - "$latest_release_url"  2>&1 || true)
         fi
         TAG=$(echo "$latest_release_response" | jq .tag_name | tr -d '"')
-        if [ "x$TAG" == "x" ]; then
-            printf "Could not retrieve the latest release tag information from %s: %s\n" "${latest_release_url}" "${latest_release_response}"
+        if [ "$TAG"=="null" -o "x$TAG" == "x" ]; then
+            printf "Could not retrieve the latest release tag information from %s: %s\n" "${latest_release_url}" "$(echo "$latest_release_response" | jq .message | tr -d '"')"
             exit 1
         fi
     else
