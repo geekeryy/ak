@@ -132,8 +132,8 @@ installFile() {
     mkdir -p "$AK_TMP"
     tar xf "$AK_TMP_FILE" -C "$AK_TMP"
     echo "Preparing to install $BINARY_NAME into ${AK_INSTALL_DIR}"
-    \cp "$AK_TMP/$BINARY_NAME-${TAG#v}/ak.bash" "$AK_INSTALL_DIR/$BINARY_NAME"
-    \cp -r "$AK_TMP/$BINARY_NAME-${TAG#v}/_ak-script" "$AK_INSTALL_DIR/"
+    runAsRoot cp "$AK_TMP/$BINARY_NAME-${TAG#v}/ak.bash" "$AK_INSTALL_DIR/$BINARY_NAME"
+    runAsRoot cp -r "$AK_TMP/$BINARY_NAME-${TAG#v}/_ak-script" "$AK_INSTALL_DIR/"
     echo "$BINARY_NAME installed into $AK_INSTALL_DIR/$BINARY_NAME"
 }
 
