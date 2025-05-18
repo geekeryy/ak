@@ -11,7 +11,7 @@ function _param_parse() {
       days="$2"
       shift 2
       ;;
-    -ca | --ca-file)
+    -ca | --ca-path)
       ca_path="$2"
       shift 2
       ;;
@@ -123,9 +123,9 @@ function help() {
   echo ""
   echo "Options:"
   echo "  -cn, --common-name :设置通用名称"
-  echo "  -d, --days         :设置有效期"
-  echo "  -ca, --ca-file     :设置CA证书文件路径"
-  echo "  -o, --output       :设置输出文件路径"
+  echo "  -d, --days         :设置有效期 默认365天"
+  echo "  -ca, --ca-path     :设置CA证书文件路径 默认当前目录"
+  echo "  -o, --output       :设置输出文件路径 默认当前目录"
 }
 
 output=.
@@ -146,7 +146,7 @@ else
       days="$2"
       shift 2
       ;;
-    -ca | --ca-file)
+    -ca | --ca-path)
       ca_path="$2"
       shift 2
       ;;

@@ -42,11 +42,11 @@
 安装稳定版本
 
 ```sh
-curl -s https://raw.githubusercontent.com/geekeryy/ak/refs/heads/main/_ak-script/install.sh | bash 
+curl https://ak.jiangyang.online | bash
 ```
 
 安装开发版本
 
 ```sh
-curl -s https://raw.githubusercontent.com/geekeryy/ak/refs/heads/main/_ak-script/install.sh | bash -s -- --version main
+curl https://ak.jiangyang.online | bash -s -- --version main
 ```
