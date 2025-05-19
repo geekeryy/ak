@@ -2,6 +2,11 @@
 
 set -eu
 
+trap 'onCtrlC' INT
+function onCtrlC() {
+    exit 1
+}
+
 : "${DEBUG:="$(env | grep -q DEBUG && echo true || echo false)"}"
 : "${HAS_CURL:="$(type "curl" &>/dev/null && echo true || echo false)"}"
 : "${HAS_WGET:="$(type "wget" &>/dev/null && echo true || echo false)"}"
@@ -20,11 +25,6 @@ AK_SUBSCRIPT_DIR="$AK_ROOT"/_ak-script
 source "$AK_SUBSCRIPT_DIR"/lib/util.sh
 source "$AK_SUBSCRIPT_DIR"/lib/print.sh
 
-trap 'onCtrlC' INT
-function onCtrlC () {
-    exit 1
-}
-
 function version() {
     head -1 "$AK_SUBSCRIPT_DIR"/VERSION
 }
@@ -39,11 +39,14 @@ function help() {
     echo "  help                          :查看帮助"
     echo "  version                       :查看版本"
     echo "  update [tag|branch]           :更新版本"
-    echo "                                使用 \"ak update\" 安装最新稳定版本; 使用 \"ak update [tag|branch]\" 安装指定版本"
+    echo "                                 使用 \"ak update\" 安装最新稳定版本; 使用 \"ak update [tag|branch]\" 安装指定版本"
     echo "Scripts:"
-    echo "  example:       这是一个示例脚本,ak example hello 试试！"
-    echo "  docker:        容器相关的脚本工具"
-    echo "  ssl:           证书相关的脚本工具"
+    echo "  example:                      :这是一个示例脚本,ak example hello 试试！"
+    echo "  docker:                       :容器相关的脚本工具"
+    echo "  ssl:                          :证书相关的脚本工具"
+    echo ""
+    echo "Options:"
+    echo "  --debug:                      :开启调试模式"
 }
 
 function update() {
@@ -60,6 +63,15 @@ function update() {
 if [ $# = 0 ]; then
     help
 else
+    # 如果存在--debug参数，则开启调试模式，并从参数列表中移除该参数
+    for arg in "${@}"; do
+        if [[ "$arg" == "--debug" ]]; then
+            set -x
+            set -- "${@/#--debug/}"
+            break
+        fi
+    done
+
     case $1 in
     "help")
         help
@@ -72,8 +84,13 @@ else
         exit 0
         ;;
     *)
-        # shellcheck source=/dev/null
-        source "$AK_SUBSCRIPT_DIR"/"$1".sh "${@}"
+        if [ -f "$AK_SUBSCRIPT_DIR"/"$1".sh ]; then
+            # shellcheck source=/dev/null
+            source "$AK_SUBSCRIPT_DIR"/"$1".sh "${@}"
+        else
+            echo "Script $1 not found"
+            help
+        fi
         ;;
     esac
 fi

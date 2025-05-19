@@ -139,7 +139,10 @@ installFile() {
     runAsRoot chmod a-w "$AK_INSTALL_DIR/_ak-script/VERSION"
     echo "$BINARY_NAME installed into $AK_INSTALL_DIR/$BINARY_NAME"
     echo "Execute the following command to add the completion function:"
-    echo "echo \"source $AK_INSTALL_DIR/_ak-script/completion/ak.bash\" >> ~/.bashrc"
+    echo ""
+    echo "      echo \"source $AK_INSTALL_DIR/_ak-script/completion/ak.bash\" >> ~/.bashrc"
+    echo "      source ~/.bashrc"
+    echo ""
 }
 
 # fail_trap is executed if an error occurs.
@@ -195,7 +198,10 @@ if [ "${DEBUG}" == "true" ]; then
 fi
 
 # Parsing input arguments (if any)
-export INPUT_ARGUMENTS="${@}"
+if [ $# -gt 0 ]; then
+    export INPUT_ARGUMENTS="${@}"
+fi
+
 DOWNLOAD_TYPE="tags"
 set -u
 while [[ $# -gt 0 ]]; do

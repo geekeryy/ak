@@ -48,7 +48,7 @@ function tags() {
   elif [ "$HAS_WGET" = "true" ]; then
     wget -qO- https://hub.docker.com/v2/repositories/library/$image_name/tags\?page_size\=$page_size\&page\=$page_number\&ordering\=last_updated\&name | jq -r ".results[] | \"$image_name:\" + .name"
   else
-    echo "curl or wget is required"
+    echo "[ERROR] curl or wget is required"
   fi
 }
 
@@ -58,13 +58,14 @@ function help() {
   echo ""
   echo "Commands:"
   echo "  goto    <container_name> :进入指定容器实际存储目录"
+  echo "                            如果Docker未启动会自动启动"
   echo "                            Darwin 需要借助特权容器使用nsenter进入"
   echo "  tags    <image_name>     :查看指定镜像名称"
   echo ""
   echo "Options:"
-  echo "  -n, --number       :显示指定数量的标签[1-50 默认25]"
-  echo "  -p, --page         :显示指定页码的标签[默认1]"
-  echo "  help               :查看帮助"
+  echo "  -n, --number             :显示指定数量的标签[1-50 默认25]"
+  echo "  -p, --page               :显示指定页码的标签[默认1]"
+  echo "  help                     :查看帮助"
 }
 
 if [ $# = 1 ]; then help; else "${@:2}"; fi
