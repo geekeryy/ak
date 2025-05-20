@@ -116,7 +116,7 @@ checkAKInstalledVersion() {
 downloadFile() {
     AK_DIST="$TAG.tar.gz"
     DOWNLOAD_URL="https://github.com/geekeryy/ak/archive/refs/$DOWNLOAD_TYPE/$AK_DIST"
-    AK_TMP_ROOT="$(mktemp -dt ak-installer)"
+    AK_TMP_ROOT="$(mktemp -dt ak-installer-XXXXXX)"
     AK_TMP_FILE="$AK_TMP_ROOT/$AK_DIST"
     echo "Downloading $DOWNLOAD_URL"
     if [ "${HAS_CURL}" = "true" ]; then
