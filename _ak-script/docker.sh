@@ -59,6 +59,7 @@ function help() {
   echo "  goto    <container_name> :进入指定容器实际存储目录"
   echo "                            如果Docker未启动会自动启动"
   echo "                            Darwin 需要借助特权容器使用nsenter进入"
+  echo "                            Linux 使用source ak docker goto <container_name> 直接进入"
   echo "  tags    <image_name>     :查看指定镜像名称"
   echo ""
   echo "Options:"

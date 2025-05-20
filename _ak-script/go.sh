@@ -37,8 +37,7 @@ function install() {
     sudo tar -C /usr/local/"$version" -xzf "$version"."$os"-"$arch".tar.gz
     rm "$version"."$os"-"$arch".tar.gz
     echo "[INFO] 安装成功，安装路径: /usr/local/$version/go"
-    echo "[INFO] 执行: export PATH=\$PATH:/usr/local/$version/go/bin 使用当前安装版本"
-
+    echo "[INFO] 执行: export PATH=/usr/local/$version/go/bin:\$PATH 使用当前安装版本"
 }
 
 function tags() {
@@ -65,6 +64,10 @@ else
     while [[ $# -gt 0 ]]; do
         case "$1" in
         install)
+            if [ $# -ne 2 ]; then
+                echo "[ERROR] 请指定版本号"
+                exit 1
+            fi
             version="$2"
             shift 2
             ;;

@@ -1,5 +1,4 @@
-AK_ROOT=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
-AK_SUBSCRIPT_DIR="$AK_ROOT"/_ak-script
+AK_SUBSCRIPT_DIR=/usr/local/bin/_ak-script
 
 # shellcheck source=/dev/null
 source "$AK_SUBSCRIPT_DIR"/lib/check.sh
@@ -19,7 +18,7 @@ function _docker-completion() {
             else
                 systemctl start docker
             fi
-            COMPREPLY=('Docker' 'is' 'opening' '...')
+            COMPREPLY=('Docker is opening ...')
             return 0
         fi
 
