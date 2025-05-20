@@ -45,7 +45,7 @@ function _go-completion() {
 function _ak_completions() {
     if [ "$COMP_CWORD" -eq 1 ]; then
         COMPREPLY=('update' 'version' 'help')
-        while IFS='' read -r line; do COMPREPLY+=("$line"); done < <(compgen -W "$(find "$AK_SUBSCRIPT_DIR"/*.sh -type f -print0 | xargs -0 basename | awk -F "." '{print $1}')" "${COMP_WORDS[$COMP_CWORD]}")
+        while IFS='' read -r line; do COMPREPLY+=("$line"); done < <(compgen -W "$(find "$AK_SUBSCRIPT_DIR"/*.sh -type f -print0 | xargs -0 -n1 basename | awk -F "." '{print $1}')" "${COMP_WORDS[$COMP_CWORD]}")
     elif [ "$COMP_CWORD" -eq 2 ]; then
         # TODO update 自动补全分支和tag
         COMPREPLY=()
