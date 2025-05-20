@@ -10,7 +10,7 @@ function onCtrlC() {
 : "${DEBUG:="$(env | grep -q DEBUG && echo true || echo false)"}"
 
 # Set debug if desired
-if [ "${DEBUG}" == "true" ]; then
+if [ "${DEBUG}" = "true" ]; then
     set -x
 fi
 
@@ -65,7 +65,7 @@ if [ $# = 0 ]; then
 else
     # 如果存在--debug参数，则开启调试模式，并从参数列表中移除该参数
     for arg in "${@}"; do
-        if [[ "$arg" == "--debug" ]]; then
+        if [[ "$arg" = "--debug" ]]; then
             set -x
             set -- "${@/#--debug/}"
             break

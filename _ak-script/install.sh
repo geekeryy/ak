@@ -73,19 +73,19 @@ verifySupported() {
 
 # checkDesiredVersion checks if the desired version is available.
 checkDesiredVersion() {
-    if [ "x$DESIRED_VERSION" == "x" ]; then
+    if [ "$DESIRED_VERSION" = "" ]; then
         # Get tag from release URL
         local latest_release_url="https://api.github.com/repos/geekeryy/ak/releases/latest"
         local latest_release_response=""
-        if [ "${HAS_CURL}" == "true" ]; then
+        if [ "${HAS_CURL}" = "true" ]; then
             # TODO 使用api封装一下
-            token=$(echo $GH_TOKEN | rev | base64 -d)
+            token=$(echo "$GH_TOKEN" | rev | base64 -d)
             latest_release_response=$(curl --header "Authorization: Bearer $token" -L --silent --show-error "$latest_release_url" 2>&1 || true)
-        elif [ "${HAS_WGET}" == "true" ]; then
+        elif [ "${HAS_WGET}" = "true" ]; then
             latest_release_response=$(wget --header "Authorization: Bearer $token" --content-on-error -q -O - "$latest_release_url"  2>&1 || true)
         fi
         TAG=$(echo "$latest_release_response" | jq .tag_name | tr -d '"')
-        if [ "$TAG"=="null" -o "x$TAG" == "x" ]; then
+        if [ "$TAG" = "null" ] || [ -z "$TAG" ]; then
             printf "Could not retrieve the latest release tag information from %s: %s\n" "${latest_release_url}" "$(echo "$latest_release_response" | jq .message | tr -d '"')"
             exit 1
         fi
@@ -99,7 +99,7 @@ checkDesiredVersion() {
 checkAKInstalledVersion() {
     if [[ -f "${AK_INSTALL_DIR}/${BINARY_NAME}" ]]; then
         local version=$("${AK_INSTALL_DIR}/${BINARY_NAME}" version)
-        if [[ "$version" == "$TAG" ]]; then
+        if [[ "$version" = "$TAG" ]]; then
             echo "AK ${version} is already ${DESIRED_VERSION:-latest}"
             return 0
         else
@@ -119,9 +119,9 @@ downloadFile() {
     AK_TMP_ROOT="$(mktemp -dt ak-installer)"
     AK_TMP_FILE="$AK_TMP_ROOT/$AK_DIST"
     echo "Downloading $DOWNLOAD_URL"
-    if [ "${HAS_CURL}" == "true" ]; then
+    if [ "${HAS_CURL}" = "true" ]; then
         curl -SsL "$DOWNLOAD_URL" -o "$AK_TMP_FILE"
-    elif [ "${HAS_WGET}" == "true" ]; then
+    elif [ "${HAS_WGET}" = "true" ]; then
         wget -q -O "$AK_TMP_FILE" "$DOWNLOAD_URL"
     fi
 }
@@ -164,7 +164,7 @@ fail_trap() {
 # testVersion tests the installed client to make sure it is working.
 testVersion() {
     set +e
-    AK="$(command -v $BINARY_NAME)"
+    AK="$(command -v "$BINARY_NAME")"
     if [ "$?" = "1" ]; then
         echo "$BINARY_NAME not found. Is $AK_INSTALL_DIR on your "'$PATH?'
         exit 1
@@ -193,7 +193,7 @@ trap "fail_trap" EXIT
 set -e
 
 # Set debug if desired
-if [ "${DEBUG}" == "true" ]; then
+if [ "${DEBUG}" = "true" ]; then
     set -x
 fi
 
