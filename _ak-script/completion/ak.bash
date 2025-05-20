@@ -1,14 +1,23 @@
-source /usr/local/bin/_ak-script/lib/util.sh
+AK_ROOT=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
+AK_SUBSCRIPT_DIR="$AK_ROOT"/_ak-script
+
+# shellcheck source=/dev/null
+source "$AK_SUBSCRIPT_DIR"/lib/check.sh
+# shellcheck source=/dev/null
+source "$AK_SUBSCRIPT_DIR"/lib/print.sh
+# shellcheck source=/dev/null
+source "$AK_SUBSCRIPT_DIR"/lib/cache.sh
+# shellcheck source=/dev/null
+source "$AK_SUBSCRIPT_DIR"/lib/util.sh
 
 function _docker-completion() {
     case ${COMP_WORDS[$((COMP_CWORD - 1))]} in
     "goto")
-
-        if ! docker info &>/dev/null ; then
+        if ! docker info &>/dev/null; then
             if [ "$(uname)" = "Darwin" ]; then
                 open -a Docker
             else
-               systemctl start docker
+                systemctl start docker
             fi
             COMPREPLY=('Docker' 'is' 'opening' '...')
             return 0
@@ -20,6 +29,16 @@ function _docker-completion() {
         else
             while IFS='' read -r line; do COMPREPLY+=("$line"); done < <(compgen -W "$(docker ps --format "{{.Names}}")" "${COMP_WORDS[$((COMP_CWORD))]}")
         fi
+        ;;
+    esac
+}
+
+function _go-completion() {
+    COMPREPLY=()
+    case ${COMP_WORDS[$((COMP_CWORD - 1))]} in
+    "install")
+        COMPREPLY=()
+        while IFS='' read -r line; do COMPREPLY+=("$line"); done < <(compgen -W "$(get_go_versions)" "${COMP_WORDS[$COMP_CWORD]}")
         ;;
     esac
 }

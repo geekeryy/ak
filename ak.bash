@@ -8,10 +8,6 @@ function onCtrlC() {
 }
 
 : "${DEBUG:="$(env | grep -q DEBUG && echo true || echo false)"}"
-: "${HAS_CURL:="$(type "curl" &>/dev/null && echo true || echo false)"}"
-: "${HAS_WGET:="$(type "wget" &>/dev/null && echo true || echo false)"}"
-: "${HAS_GIT:="$(type "git" &>/dev/null && echo true || echo false)"}"
-: "${HAS_TAR:="$(type "tar" &>/dev/null && echo true || echo false)"}"
 
 # Set debug if desired
 if [ "${DEBUG}" == "true" ]; then
@@ -22,8 +18,13 @@ AK_ROOT=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
 AK_SUBSCRIPT_DIR="$AK_ROOT"/_ak-script
 
 # shellcheck source=/dev/null
-source "$AK_SUBSCRIPT_DIR"/lib/util.sh
+source "$AK_SUBSCRIPT_DIR"/lib/check.sh
+# shellcheck source=/dev/null
 source "$AK_SUBSCRIPT_DIR"/lib/print.sh
+# shellcheck source=/dev/null
+source "$AK_SUBSCRIPT_DIR"/lib/cache.sh
+# shellcheck source=/dev/null
+source "$AK_SUBSCRIPT_DIR"/lib/util.sh
 
 function version() {
     head -1 "$AK_SUBSCRIPT_DIR"/VERSION

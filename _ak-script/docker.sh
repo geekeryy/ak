@@ -2,7 +2,6 @@
 
 function goto() {
   start_docker
-  set +u
   path=$(docker inspect "$1"| grep MergedDir | awk -F ':' '{print $2}' | cut -c 3- | rev | cut -c 3- | rev )
   echo "[INFO] MergedDir: $path"
 

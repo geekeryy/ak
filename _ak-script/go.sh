@@ -7,6 +7,11 @@ function install() {
         echo "[INFO] 未指定版本号，安装最新版本: $version"
     fi
 
+    if [ -d "/usr/local/$version" ]; then
+        echo "[INFO] 版本已存在，跳过安装"
+        return 0
+    fi
+
     os=$(uname | tr '[:upper:]' '[:lower:]')
     arch=$(uname -m)
     case $arch in
@@ -46,7 +51,7 @@ function help() {
     echo "Usage: go <command> ..."
     echo ""
     echo "Command:"
-    echo "  install [-v version]          :安装go"
+    echo "  install [version]             :安装go"
     echo "  tags:                         :获取go版本列表"
     echo "  help:                         :查看帮助"
 }
@@ -59,7 +64,7 @@ else
     subcommand="$1"
     while [[ $# -gt 0 ]]; do
         case "$1" in
-        -v | --version)
+        install)
             version="$2"
             shift 2
             ;;
