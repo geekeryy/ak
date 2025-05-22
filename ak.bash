@@ -14,6 +14,19 @@ if [ "${DEBUG}" = "true" ]; then
     set -x
 fi
 
+# 依赖检查
+check_dependencies() {
+    if ! command -v jq &>/dev/null; then
+        echo "[ERROR] 需要安装jq工具"
+        echo "Ubuntu: sudo apt install jq"
+        echo "CentOS: sudo yum install jq"
+        echo "Mac:    brew install jq"
+        return 1
+    fi
+}
+
+check_dependencies
+
 AK_ROOT=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
 AK_SUBSCRIPT_DIR="$AK_ROOT"/_ak-script
 
@@ -32,7 +45,8 @@ function version() {
 
 function help() {
     echo "AK devops script collection."
-    echo ""
+    echo "Environment:"
+    echo "  DEEPSEEK_API_KEY: 用于DeepSeek终端智能助手"
     echo "Usage: ak <command|script> ..."
     echo "Commands:"
     echo "  help                          :查看帮助"
@@ -40,10 +54,11 @@ function help() {
     echo "  update [tag|branch]           :更新版本"
     echo "                                 使用 \"ak update\" 安装最新稳定版本; 使用 \"ak update [tag|branch]\" 安装指定版本"
     echo "Scripts:"
-    echo "  example:                      :这是一个示例脚本,ak example hello 试试！"
-    echo "  docker:                       :容器相关的脚本工具"
-    echo "  ssl:                          :证书相关的脚本工具"
-    echo "  go:                           :go语言相关的脚本工具"
+    echo "  example                       :这是一个示例脚本,ak example hello 试试！"
+    echo "  docker                        :容器相关的脚本工具"
+    echo "  ssl                           :证书相关的脚本工具"
+    echo "  go                            :go语言相关的脚本工具"
+    echo "  ai                            :DeepSeek终端智能助手"
     echo ""
     echo "Options:"
     echo "  --debug:                      :开启调试模式"

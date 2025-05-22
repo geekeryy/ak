@@ -17,7 +17,7 @@ function spinners() {
     # \r 回车（覆盖当前行）
     # \e[32m 设置绿色字体
     # \e[0m 重置样式
-    printf "\r\e[32m$2 %s\e[0m" "$char"
+    printf "\r\e[32m %s $2\e[0m" "$char"
     sleep 0.1 # 调整速度（秒）
   done
 }

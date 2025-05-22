@@ -1,8 +1,10 @@
 # 更新日志
 
-## [Unreleased] - 2025-05-20
+## [Unreleased] - 2025-05-22
 
 ### Added
+
+- DeepSeek终端智能助手: 通过Ctrl+G快捷键获取AI建议，直接将命令行中的描述转换成命令并输出到终端
 
 ### Changed
 
