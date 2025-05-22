@@ -68,7 +68,7 @@ generate_command() {
             # 保留提示符
             zle reset-prompt
         fi
-        return 0
+        return 1
     fi
 
     # 保存原始输入，用于在解析失败时恢复
@@ -92,8 +92,8 @@ generate_command() {
     if ! echo "$response" | jq -e '.choices[0].message.content' &>/dev/null; then
         # 使用awk提取json中的content
         local suggestion=$(echo "$response" | awk -F '"content":' '{print $2}' | awk -F ',"logprobs"' '{print $1}' | tr -d '"' | tr -d "\n")
-        if [ -n "$content" ]; then
-            echo "API响应格式错误，无法解析"
+        if [ -z "$content" ]; then
+            echo $response
             # 将原始输入恢复到命令行
             if [ -n "$BASH" ]; then
                 READLINE_LINE="$original_input"
@@ -114,8 +114,6 @@ generate_command() {
     # 检查建议是否为空
     if [ -z "$suggestion" ]; then
         echo "未获取到有效建议，请重试"
-        # 恢复原始输入
-        echo -e "\n已恢复原始输入"
         # 将原始输入恢复到命令行
         if [ -n "$BASH" ]; then
             READLINE_LINE="$original_input"

@@ -100,8 +100,14 @@ checkAKInstalledVersion() {
     if [[ -f "${AK_INSTALL_DIR}/${BINARY_NAME}" ]]; then
         local version=$("${AK_INSTALL_DIR}/${BINARY_NAME}" version)
         if [[ "$version" = "$TAG" ]]; then
-            echo "AK ${version} is already ${DESIRED_VERSION:-latest}"
-            return 0
+            # 如果不是v开头的版本号，则覆盖安装
+            if [[ "$TAG" != "v"* ]]; then
+                echo "AK ${version} is already ${DESIRED_VERSION:-latest}"
+                return 1
+            else
+                echo "AK ${version} is already ${DESIRED_VERSION:-latest}"
+                return 0
+            fi
         else
             echo "AK ${TAG} is available. Changing from version ${version}."
             return 1
@@ -132,11 +138,8 @@ installFile() {
     mkdir -p "$AK_TMP"
     tar xf "$AK_TMP_FILE" -C "$AK_TMP"
     echo "Preparing to install $BINARY_NAME into ${AK_INSTALL_DIR}"
-    # runAsRoot chmod a+w "$AK_INSTALL_DIR/_ak-script/VERSION"
     echo "${TAG}" > "$AK_TMP/$BINARY_NAME-${TAG#v}/_ak-script/VERSION"
     mv "$AK_TMP/$BINARY_NAME-${TAG#v}/ak.bash" "$AK_TMP/$BINARY_NAME-${TAG#v}/ak"
-    # runAsRoot chmod a-w "$AK_INSTALL_DIR/_ak-script/VERSION"
-    # runAsRoot cp "$AK_TMP/$BINARY_NAME-${TAG#v}/ak.bash" "$AK_INSTALL_DIR/$BINARY_NAME"
     runAsRoot cp -r "$AK_TMP/$BINARY_NAME-${TAG#v}/ak" "$AK_TMP/$BINARY_NAME-${TAG#v}/_ak-script" "$AK_INSTALL_DIR/"
 
     echo "$BINARY_NAME installed into $AK_INSTALL_DIR/$BINARY_NAME"
