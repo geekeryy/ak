@@ -5,12 +5,14 @@
 ### Added
 
 - DeepSeek终端智能助手: 通过Ctrl+G快捷键获取AI建议，直接将命令行中的描述转换成命令并输出到终端
+- ak docker tags 支持带斜杠的非docker官方镜像
 
 ### Changed
 
 ### Fixed
 
-- 修复ak update <branch> 无法覆盖更新的问题
+- 修复ak update `<branch>` 无法覆盖更新的问题
+- 修复清除--debug参数时未重置$#导致子命令参数数量读取异常问题
 
 ## [0.0.1] - 2025-05-20
 

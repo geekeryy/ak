@@ -79,13 +79,15 @@ if [ $# = 0 ]; then
     help
 else
     # 如果存在--debug参数，则开启调试模式，并从参数列表中移除该参数
-    for arg in "${@}"; do
-        if [[ "$arg" = "--debug" ]]; then
+    new_args=()
+    for arg in "$@"; do
+        if [[ "$arg" != "--debug" ]]; then
+            new_args+=("$arg") # 保留非 --debug 的参数
+        else
             set -x
-            set -- "${@/#--debug/}"
-            break
         fi
     done
+    set -- "${new_args[@]}"
 
     case $1 in
     "help")
