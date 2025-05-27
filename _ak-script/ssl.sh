@@ -162,7 +162,7 @@ function help() {
   echo "  ca                                :生成CA证书"
   echo "  client                            :生成客户端证书"
   echo "  server [-san <DNS:,IP:>]          :生成服务器证书"
-  echo "                                     设置SAN，例如: -san \"DNS:www.example.com,DNS1:example.com,IP:192.168.1.1\""
+  echo "                                     设置SAN，例如: -san \"DNS:www.example.com,DNS:example.com,IP:192.168.1.1\""
   echo "  check [-f <file>]                 :检查证书信息"
   echo "  help                              :查看帮助"
   echo ""
@@ -186,6 +186,10 @@ else
   subcommand="$1"
   while [[ $# -gt 0 ]]; do
     case "$1" in
+    -h | --help)
+      help
+      exit 0
+      ;;
     -cn | --common-name)
       common_name="$2"
       shift 2
