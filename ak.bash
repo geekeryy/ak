@@ -59,6 +59,7 @@ function help() {
     echo "  ssl                           :证书相关的脚本工具"
     echo "  go                            :go语言相关的脚本工具"
     echo "  ai                            :DeepSeek终端智能助手"
+    echo "  ps                            :进程信息查看工具"
     echo ""
     echo "Options:"
     echo "  --debug:                      :开启调试模式"

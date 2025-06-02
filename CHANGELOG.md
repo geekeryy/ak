@@ -6,6 +6,7 @@
 
 - DeepSeek终端智能助手: 通过Ctrl+G快捷键获取AI建议，直接将命令行中的描述转换成命令并输出到终端
 - ak docker tags 支持带斜杠的非docker官方镜像
+- 新增ak ps fdcount命令：查看进程打开的文件描述符数量
 
 ### Changed
 
