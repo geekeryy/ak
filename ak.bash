@@ -7,7 +7,7 @@ function onCtrlC() {
     exit 1
 }
 
-: "${DEBUG:="$(env | grep -q DEBUG && echo true || echo false)"}"
+: "${DEBUG:="$(env | grep -q AK_DEBUG && echo true || echo false)"}"
 
 # Set debug if desired
 if [ "${DEBUG}" = "true" ]; then
