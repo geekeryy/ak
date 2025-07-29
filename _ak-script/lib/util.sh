@@ -48,8 +48,8 @@ function sqlite_install() {
   cd sqlite-autoconf-${version} || exit 1
   ./configure --prefix=/usr/local
   make
-  sudo make install
-  sudo rm -rf sqlite-autoconf-${version}.tar.gz sqlite-autoconf-${version}
+  try_sudo make install
+  try_sudo rm -rf sqlite-autoconf-${version}.tar.gz sqlite-autoconf-${version}
   echo "sqlite installed"
 }
 
@@ -109,4 +109,13 @@ function get_go_versions() {
   .[0:5] |  # 取前5个主版本
   .[].versions[]  # 输出所有版本
 '
+}
+
+
+function try_sudo(){
+  if ! sudo -v &>/dev/null; then
+    "$@"
+    return
+  fi
+  sudo "$@"
 }

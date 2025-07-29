@@ -33,8 +33,8 @@ function install() {
         echo "[ERROR] curl or wget is required"
         exit 1
     fi
-    sudo mkdir -p /usr/local/"$version"
-    sudo tar -C /usr/local/"$version" -xzf "$version"."$os"-"$arch".tar.gz
+    try_sudo mkdir -p /usr/local/"$version"
+    try_sudo tar -C /usr/local/"$version" -xzf "$version"."$os"-"$arch".tar.gz
     rm "$version"."$os"-"$arch".tar.gz
     echo "[INFO] 安装成功，安装路径: /usr/local/$version/go"
     echo "[INFO] 执行: export PATH=/usr/local/$version/go/bin:\$PATH 使用当前安装版本"
