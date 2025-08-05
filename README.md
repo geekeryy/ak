@@ -14,7 +14,7 @@
                                                       
 ```
 
-[![Website](https://img.shields.io/website?url=https%3A%2F%2Fwww.jiangyang.me)](https://blog.jiangyang.me)
+[![Website](https://img.shields.io/website?url=https%3A%2F%2Fwww.jiangyang.me)](https://blog.jiangyang.online)
 ![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/geekeryy/ak)
 ![GitHub](https://img.shields.io/github/license/geekeryy/ak)
 ![GitHub issues](https://img.shields.io/github/issues/geekeryy/ak)

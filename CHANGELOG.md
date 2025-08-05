@@ -1,10 +1,16 @@
 # 更新日志
 
-## [Unreleased] - 2025-06-03
+## [Unreleased] - 2025-08-05
 
 ### Added
 
 ### Changed
+
+- 文档修复
+
+### Fixed
+
+## [0.0.3] - 2025-08-05
 
 ### Fixed
 
