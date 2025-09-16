@@ -152,17 +152,17 @@ function help() {
   echo "Usage: ssl <command> ..."
   echo ""
   echo "Example:"
-  echo "  ak ssl ca                                                                  :在当前目录创建CA证书"
-  echo "  ak ssl client                                                              :使用当前目录CA创建客户端证书，当服务器需要使用客户端证书验证时使用"
-  echo "  ak ssl server -cn www.example.com -san DNS:www.example.com,IP:192.168.1.1  :使用当前目录CA创建服务器证书"
-  echo "  ak ssl check -f ca.crt                                                     :检查证书信息"
-  echo "  ak ssl check -f ca.crt -ca /path/to/ca.crt                                 :检查证书是否由CA签发"
+  echo "  ak ssl ca                                                                      :在当前目录创建CA证书"
+  echo "  ak ssl client                                                                  :使用当前目录CA创建客户端证书，当服务器需要使用客户端证书验证时使用"
+  echo "  ak ssl server -cn www.example.com -san \"DNS:*.example.com,IP:192.168.1.1\"    :使用当前目录CA创建服务器证书"
+  echo "  ak ssl check -f ca.crt                                                         :检查证书信息"
+  echo "  ak ssl check -f ca.crt -ca /path/to/ca.crt                                     :检查证书是否由CA签发"
   echo ""
   echo "Commands:"
   echo "  ca                                :生成CA证书"
   echo "  client                            :生成客户端证书"
   echo "  server [-san <DNS:,IP:>]          :生成服务器证书"
-  echo "                                     设置SAN，例如: -san \"DNS:www.example.com,DNS:example.com,IP:192.168.1.1\""
+  echo "                                     设置SAN，例如: -san \"DNS:*.example.com,DNS:example.com,IP:192.168.1.1\""
   echo "  check [-f <file>]                 :检查证书信息"
   echo "  help                              :查看帮助"
   echo ""
@@ -173,7 +173,7 @@ function help() {
   echo "  -ca, --ca-path           :设置CA证书文件路径 默认当前目录"
 }
 
-output=.
+output=
 ca_path=.
 days=365
 common_name=
@@ -219,6 +219,13 @@ else
       ;;
     esac
   done
+  if [ -z "$output" ]; then
+    if [ -n "$common_name" ]; then
+      output=$common_name
+    else
+      output=.
+    fi
+  fi
   if [ ! -d "$output" ]; then
     echo "[INFO] 输出目录不存在，创建输出目录" "$output"
     mkdir -p "$output"

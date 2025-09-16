@@ -1,14 +1,20 @@
 # 更新日志
 
-## [Unreleased] - 2025-08-05
+## [Unreleased] - 2025-01-27
 
 ### Added
 
 ### Changed
 
 - 文档修复
+- 更新README.md中ssl命令描述，增加通配符证书支持说明
+- 优化Makefile注释，移除无用的check目标
+- 改进ssl.sh脚本的输出目录逻辑，支持根据common_name自动创建目录
 
 ### Fixed
+
+- 修复ssl.sh脚本中示例命令格式，统一使用引号包围SAN参数
+- 修复ssl.sh脚本输出目录处理逻辑，当未指定output时根据common_name自动设置
 
 ## [0.0.3] - 2025-08-05
 
