@@ -1,4 +1,5 @@
 #!/bin/bash
+# shellcheck source=/dev/null
 source ak.bash
 #sqlite_install
 

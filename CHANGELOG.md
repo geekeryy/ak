@@ -1,8 +1,14 @@
 # 更新日志
 
-## [Unreleased] - 2025-01-27
+## [Unreleased] - 2025-11-13
 
 ### Added
+
+### Changed
+
+### Fixed
+
+## [0.0.4] - 2025-11-13
 
 ### Changed
 
@@ -10,7 +16,7 @@
 - 更新README.md中ssl命令描述，增加通配符证书支持说明
 - 优化Makefile注释，移除无用的check目标
 - 改进ssl.sh脚本的输出目录逻辑，支持根据common_name自动创建目录
-- 增强jq依赖检查功能，支持自动检测操作系统并安装jq工具
+- 增强jq依赖检查功能，支持自动检测操作系统并安装jq工具 #1
 
 ### Fixed
 

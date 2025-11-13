@@ -58,6 +58,10 @@ curl https://ak.jiangyang.online | bash
 curl https://ak.jiangyang.online | bash -s -- --version main
 ```
 
+## 说明
+
+- 主要支持环境：MacOS、Centos、Ubuntu、Docker
+
 ## 代码规范
 
 | Commit      | 描述          |
@@ -67,3 +71,9 @@ curl https://ak.jiangyang.online | bash -s -- --version main
 | docs      | 添加或更新文档    |
 | refactor  | 重构            |
 | test      | 测试            |
+| perf      | 性能优化        |
+| style     | 代码风格        |
+
+## 更新日志
+
+请查看 [CHANGELOG.md](CHANGELOG.md)

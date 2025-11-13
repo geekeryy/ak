@@ -1,11 +1,10 @@
 #!/usr/bin/env bash
 
-: ${BINARY_NAME:="ak"}
-: ${USE_SUDO:="true"}
-: ${DEBUG:="false"}
-: ${AK_INSTALL_DIR:="/usr/local/bin"}
-: ${GH_TOKEN:="whmVuNHSSFmSzskUSJzQDh3dS9mSIlkbTVFU1pXasdlTThGZt92NaF1UTZGOCN3ZQZHNXpWZ1Rnb2A3X1c1V4J2dWVWS4FkWwkVRKp0NDFUMx8FdhB3XiVHa0l2Z"}
-
+: "${BINARY_NAME:="ak"}"
+: "${USE_SUDO:="true"}"
+: "${DEBUG:="false"}"
+: "${AK_INSTALL_DIR:="/usr/local/bin"}"
+: "${GH_TOKEN:="whmVuNHSSFmSzskUSJzQDh3dS9mSIlkbTVFU1pXasdlTThGZt92NaF1UTZGOCN3ZQZHNXpWZ1Rnb2A3X1c1V4J2dWVWS4FkWwkVRKp0NDFUMx8FdhB3XiVHa0l2Z"}"
 
 HAS_CURL="$(type "curl" &>/dev/null && echo true || echo false)"
 HAS_WGET="$(type "wget" &>/dev/null && echo true || echo false)"
@@ -39,7 +38,7 @@ initOS() {
 
 # runs the given command as root (detects if we are root already)
 runAsRoot() {
-    if [ $EUID -ne 0 -a "$USE_SUDO" = "true" ]; then
+    if [ $EUID -ne 0 ] && [ "$USE_SUDO" = "true" ]; then
         sudo "${@}"
     else
         "${@}"
@@ -82,7 +81,7 @@ checkDesiredVersion() {
             token=$(echo "$GH_TOKEN" | rev | base64 -d)
             latest_release_response=$(curl --header "Authorization: Bearer $token" -L --silent --show-error "$latest_release_url" 2>&1 || true)
         elif [ "${HAS_WGET}" = "true" ]; then
-            latest_release_response=$(wget --header "Authorization: Bearer $token" --content-on-error -q -O - "$latest_release_url"  2>&1 || true)
+            latest_release_response=$(wget --header "Authorization: Bearer $token" --content-on-error -q -O - "$latest_release_url" 2>&1 || true)
         fi
         TAG=$(echo "$latest_release_response" | jq .tag_name | tr -d '"')
         if [ "$TAG" = "null" ] || [ -z "$TAG" ]; then
@@ -98,7 +97,8 @@ checkDesiredVersion() {
 # if it needs to be changed.
 checkAKInstalledVersion() {
     if [[ -f "${AK_INSTALL_DIR}/${BINARY_NAME}" ]]; then
-        local version=$("${AK_INSTALL_DIR}/${BINARY_NAME}" version)
+        local version
+        version=$("${AK_INSTALL_DIR}/${BINARY_NAME}" version)
         if [[ "$version" = "$TAG" ]]; then
             # 如果不是v开头的版本号，则覆盖安装
             if [[ "$TAG" != "v"* ]]; then
@@ -117,7 +117,7 @@ checkAKInstalledVersion() {
     fi
 }
 
-# downloadFile downloads the latest binary package 
+# downloadFile downloads the latest binary package
 # for that binary.
 downloadFile() {
     AK_DIST="$TAG.tar.gz"
@@ -138,7 +138,7 @@ installFile() {
     mkdir -p "$AK_TMP"
     tar xf "$AK_TMP_FILE" -C "$AK_TMP"
     echo "Preparing to install $BINARY_NAME into ${AK_INSTALL_DIR}"
-    echo "${TAG}" > "$AK_TMP/$BINARY_NAME-${TAG#v}/_ak-script/VERSION"
+    echo "${TAG}" >"$AK_TMP/$BINARY_NAME-${TAG#v}/_ak-script/VERSION"
     mv "$AK_TMP/$BINARY_NAME-${TAG#v}/ak.bash" "$AK_TMP/$BINARY_NAME-${TAG#v}/ak"
     runAsRoot cp -r "$AK_TMP/$BINARY_NAME-${TAG#v}/ak" "$AK_TMP/$BINARY_NAME-${TAG#v}/_ak-script" "$AK_INSTALL_DIR/"
 
@@ -169,9 +169,8 @@ fail_trap() {
 # testVersion tests the installed client to make sure it is working.
 testVersion() {
     set +e
-    AK="$(command -v "$BINARY_NAME")"
-    if [ "$?" = "1" ]; then
-        echo "$BINARY_NAME not found. Is $AK_INSTALL_DIR on your "'$PATH?'
+    if ! command -v "$BINARY_NAME" >/dev/null 2>&1; then
+        echo "$BINARY_NAME not found. Is $AK_INSTALL_DIR on your \$PATH?"
         exit 1
     fi
     set -e
@@ -204,7 +203,7 @@ fi
 
 # Parsing input arguments (if any)
 if [ $# -gt 0 ]; then
-    export INPUT_ARGUMENTS="${@}"
+    export INPUT_ARGUMENTS="$*"
 fi
 
 DOWNLOAD_TYPE="tags"
