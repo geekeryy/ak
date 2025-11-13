@@ -62,17 +62,43 @@ curl https://ak.jiangyang.online | bash -s -- --version main
 
 - 主要支持环境：MacOS、Centos、Ubuntu、Docker
 
-## 代码规范
+## 代码提交规范
 
-| Commit      | 描述          |
-|-------------|--------------|
-| fix       | 修复BUG         |
-| feat      | 引入新功能       |
-| docs      | 添加或更新文档    |
-| refactor  | 重构            |
-| test      | 测试            |
-| perf      | 性能优化        |
-| style     | 代码风格        |
+推荐遵循 [Conventional Commits](https://www.conventionalcommits.org/zh-hans/v1.0.0/) 约定，保持提交历史清晰易读。
+
+### 基础格式
+
+`<type>(<scope>): <summary> [issue]`
+
+- `type`：必填，表示此次提交的类别。
+- `scope`：可选，用于标识受影响的模块或子命令，例如 `go`、`ssl`、`docs`。
+- `summary`：使用祈使句（如“修复”、“添加”），建议不超过 72 个字符。
+- `issue`：可选，用于关联问题，例如 `close #123`、`fix #123`、`resolve #123`。
+
+### 关联问题
+
+- 自动关闭：`close|closes|closed #<issue_number>`
+- 修复缺陷：`fix|fixes|fixed #<issue_number>`
+- 解决任务：`resolve|resolves|resolved #<issue_number>`
+
+### 常用提交类型
+
+| type      | 适用场景             |
+|-----------|----------------------|
+| feat      | 引入新功能或模块       |
+| fix       | 修复缺陷或异常行为     |
+| docs      | 更新文档、注释或指南    |
+| refactor  | 重构，不改变对外行为    |
+| test      | 新增或更新测试         |
+| perf      | 优化性能或资源占用     |
+| style     | 风格调整，不影响逻辑    |
+| chore     | 杂项维护、依赖升级等    |
+
+### 最佳实践
+
+- 一次提交聚焦单一主题，避免引入不相关改动。
+- 提交前确保本地测试通过，例如执行 `make test` 或相关脚本。
+- 若提交影响用户文档或脚本行为，请同步更新文档并在提交信息中说明。
 
 ## 更新日志
 
