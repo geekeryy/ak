@@ -64,7 +64,7 @@ curl https://ak.jiangyang.online | bash -s -- --version main
 
 ## 代码提交规范
 
-推荐遵循 [Conventional Commits](https://www.conventionalcommits.org/zh-hans/v1.0.0/) 约定，保持提交历史清晰易读。
+推荐遵循 [Conventional Commits](https://www.conventionalcommits.org/zh-hans/v1.0.0/)约定，保持提交历史清晰易读。
 
 ### 基础格式
 

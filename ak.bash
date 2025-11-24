@@ -14,6 +14,11 @@ if [ "${DEBUG}" = "true" ]; then
     set -x
 fi
 
+if [ -z "${AK_ENV}" ]; then
+    # shellcheck source=/dev/null
+    source ~/.ak/env.sh
+fi
+
 # 依赖检查
 check_dependencies() {
     # 检查并安装 jq
