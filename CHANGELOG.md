@@ -7,6 +7,7 @@
 ### Changed
 
 - 优化安装过程，实现即装即用，无需手动source ~/.ak/env.sh
+- 优化docker tags命令，支持分页查询，支持搜索关键词
 
 ### Fixed
 
